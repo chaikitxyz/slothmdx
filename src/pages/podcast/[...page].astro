@@ -1,0 +1,52 @@
+---
+import type { GetStaticPaths, InferGetStaticPropsType } from "astro";
+import PageLayout from "@/layouts/Base";
+import { getAllPodcasts, sortPodcastByDate } from "@/utils";
+import PodcastCard from "@/components/PodcastCard";
+import Pagination from "@/components/Pagination";
+import { PODCASTS_PER_PAGE } from "@/site-config";
+
+export const getStaticPaths = (async ({ paginate }) => {
+  const allPodcasts = await getAllPodcasts();
+  const allPodcastsByDate = sortPodcastByDate(allPodcasts);
+  return paginate(allPodcastsByDate, { pageSize: PODCASTS_PER_PAGE });
+}) satisfies GetStaticPaths;
+
+type Props = InferGetStaticPropsType<typeof getStaticPaths>;
+
+const { page } = Astro.props;
+---
+
+<PageLayout meta={{ title: "Podcast" }}>
+  <section>
+    <h1 class="title mb-6">Podcasts</h1>
+    <p class="mb-4">Listen to the latest episodes of the podcast.</p>
+  </section>
+  <section aria-label="Podcast list" class="mt-16">
+    <div class="card min-w-full bg-base-100 shadow-md p-3 pb-3 mt-12">
+      {
+        page.data.map((episode, index) => (
+          <PodcastCard
+            title={episode.data.title}
+            cover={episode.data.cover}
+            url={episode.data.audioUrl}
+            audioUrl={episode.data.audioUrl}
+            pubDate={episode.data.pubDate}
+            duration={episode.data.duration}
+            displayDate={episode.data.publishDate}
+            id={"card-" + index}
+          />
+        ))
+      }
+    </div>
+    {page.lastPage > 1 && (
+    <Pagination
+      length={page.lastPage}
+      currentPage={page.currentPage}
+      firstUrl="/podcast"
+      prevUrl={page.url.prev}
+      nextUrl={page.url.next}
+    />
+    )}
+  </section>
+</PageLayout>

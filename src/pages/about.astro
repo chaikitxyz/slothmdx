@@ -1,0 +1,20 @@
+---
+
+
+import PageLayout from "@/layouts/Base";
+import { siteConfig } from "@/site-config";
+
+const meta = {
+	title: "About",
+	description: "I'm a starter theme for Astro.build",
+};
+---
+
+<PageLayout meta={meta}>
+	<div class="space-y-6">
+		<h1 class="title">{siteConfig.about.title}</h1>
+		<p>
+			{siteConfig.about.subtitle}
+		</p>
+	</div>
+</PageLayout>

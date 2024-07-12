@@ -1,0 +1,128 @@
+---
+const { audioUrl, id } = Astro.props;
+import DownloadIcon from "./icons/downloadIcon.astro";
+import PlayIcon from "./icons/playIcon.astro";
+import PauseIcon from "./icons/pauseIcon.astro";
+import AudioIcon from "./icons/audioIcon.astro";
+import AudioMutedIcon from "./icons/audioMutedIcon.astro";
+---
+
+<style>
+  .swap input {
+    display: none;
+  }
+  .swap-off {
+    display: none;
+  }
+  .swap input:checked ~ .swap-off {
+    display: block;
+  }
+  .swap input:checked ~ .swap-on {
+    display: none;
+  }
+</style>
+
+<div
+  class="w-full bg-base-100 h-16 items-center transition-opacity opacity-100 duration-500 flex justify-between"
+  id={`audio-player-${id}`}
+>
+  <audio src={audioUrl} preload="metadata" id={`audio-${id}`}></audio>
+  <div class="flex items-center">
+    <span id={`audio-loading-${id}`} class="loading loading-spinner loading-md min-w-[1.5rem] hidden"></span>
+    <label id={`audio-control-${id}`} class="swap hidden ml-2">
+      <input type="checkbox" id={`play-icon-${id}`} />
+      <div id={`play-icon-svg-${id}`} class="swap-off">
+        <PauseIcon />
+      </div>
+      <div id={`pause-icon-svg-${id}`} class="swap-on">
+        <PlayIcon />
+      </div>
+    </label>
+  </div>
+  <div class="flex items-center flex-grow ml-5">
+    <span id={`current-time-${id}`} class="mr-2">0:00</span>/
+    <span id={`duration-${id}`} class="ml-2">0:00</span>
+    <input id={`seek-slider-${id}`} type="range" min="0" max="0" value="0" class="range range-xs mx-5 flex-grow" />
+  </div>
+  <div class="flex items-center">
+    <label class="swap ml-5">
+      <input id={`mute-icon-${id}`} type="checkbox" />
+      <div class="swap-off">
+        <AudioIcon />
+      </div>
+      <div class="swap-on">
+        <AudioMutedIcon />
+      </div>
+    </label>
+    <a href={audioUrl} download id={`audio-download-link-${id}`} class="ml-5">
+      <DownloadIcon />
+    </a>
+  </div>
+</div>
+
+<script lang="ts">
+  document.addEventListener("DOMContentLoaded", () => {
+    const playIconContainer = document.getElementById(`play-icon-${id}`);
+    const muteIconContainer = document.getElementById(`mute-icon-${id}`);
+    const audioControl = document.getElementById(`audio-control-${id}`);
+    const audioLoading = document.getElementById(`audio-loading-${id}`);
+    const audioDownloadLink = document.getElementById(`audio-download-link-${id}`);
+
+    const audio = document.getElementById(`audio-${id}`);
+    const durationContainer = document.getElementById(`duration-${id}`);
+    const currentTimeContainer = document.getElementById(`current-time-${id}`);
+    const seekSlider = document.getElementById(`seek-slider-${id}`);
+
+    const calculateTime = (secs) => {
+      const hours = Math.floor(secs / 3600);
+      const minutes = Math.floor((secs % 3600) / 60);
+      const seconds = Math.floor(secs % 60);
+      const formattedMinutes = minutes < 10 ? `0${minutes}` : minutes;
+      const formattedSeconds = seconds < 10 ? `0${seconds}` : seconds;
+
+      return hours > 0 ? `${hours}:${formattedMinutes}:${formattedSeconds}` : `${formattedMinutes}:${formattedSeconds}`;
+    };
+
+    const displayDuration = () => {
+      durationContainer.textContent = calculateTime(audio.duration);
+    };
+
+    if (audio.readyState > 0) {
+      displayDuration();
+      audioLoading.classList.add("hidden");
+      audioControl.classList.remove("hidden");
+    } else {
+      audio.addEventListener("loadedmetadata", () => {
+        displayDuration();
+        seekSlider.max = audio.duration.toString();
+        audioLoading.classList.add("hidden");
+        audioControl.classList.remove("hidden");
+      });
+    }
+
+    muteIconContainer.addEventListener("click", () => {
+      audio.muted = muteIconContainer.checked;
+    });
+
+    playIconContainer.onchange = function () {
+      if (playIconContainer.checked) {
+        audio.play().catch(error => console.error('Audio play interrupted:', error));
+      } else {
+        audio.pause();
+      }
+    };
+
+    seekSlider.addEventListener("input", () => {
+      currentTimeContainer.textContent = calculateTime(parseFloat(seekSlider.value));
+    });
+
+    seekSlider.addEventListener("change", () => {
+      audio.currentTime = parseFloat(seekSlider.value);
+    });
+
+    audio.addEventListener("timeupdate", () => {
+      seekSlider.value = Math.floor(audio.currentTime).toString();
+      currentTimeContainer.textContent = calculateTime(parseFloat(seekSlider.value));
+    });
+  });
+</script>

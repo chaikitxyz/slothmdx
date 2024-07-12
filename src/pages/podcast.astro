@@ -1,0 +1,46 @@
+---
+import PageLayout from "@/layouts/Base";
+import { getAllPodcasts, sortPodcastByDate } from "@/utils";
+import PodcastCard from "@/components/PodcastCard";
+import Pagination from "@/components/Pagination";
+import { PODCASTS_PER_PAGE } from "@/site-config";
+
+const allPodcasts = await getAllPodcasts();
+const allPodcastsByDate = sortPodcastByDate(allPodcasts);
+const totalPages = Math.ceil(allPodcastsByDate.length / PODCASTS_PER_PAGE);
+const initialPodcasts = allPodcastsByDate.slice(0, PODCASTS_PER_PAGE);
+
+console.log("All Podcasts by Date:", allPodcastsByDate);
+console.log("Initial Podcasts:", initialPodcasts);
+---
+
+<PageLayout meta={{ title: "Podcast" }}>
+  <section>
+    <h1 class="title mb-6">Podcasts</h1>
+    <p class="mb-4">Listen to the latest episodes of the podcast.</p>
+  </section>
+  <section aria-label="Podcast list" class="mt-16">
+    <div class="card min-w-full bg-base-100 shadow-md p-3 pb-3 mt-12">
+      {
+        initialPodcasts.map((episode, index) => {
+          console.log(`Rendering PodcastCard with id: ${index}`);
+          return (
+            <PodcastCard
+              title={episode.data.title}
+              cover={episode.data.cover}
+              url={episode.data.audioUrl}
+              audioUrl={episode.data.audioUrl}
+              pubDate={episode.data.pubDate}
+              duration={episode.data.duration}
+              displayDate={episode.data.publishDate}
+              id={`card-${index}`}
+            />
+          );
+        })
+      }
+    </div>
+    {totalPages > 1 && (
+      <Pagination length={totalPages} currentPage={1} firstUrl="/podcast" prevUrl={null} nextUrl={totalPages > 1 ? "/podcast/2" : null} />
+    )}
+  </section>
+</PageLayout>

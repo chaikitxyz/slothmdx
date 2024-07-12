@@ -1,0 +1,40 @@
+{
+  "name": "blog",
+  "type": "module",
+  "version": "0.0.1",
+  "scripts": {
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "astro check && astro build",
+    "postbuild": "pagefind --site dist",
+    "preview": "astro preview",
+    "astro": "astro"
+  },
+  "dependencies": {
+    "@astrojs/check": "^0.3.1",
+    "@astrojs/mdx": "^2.0.0",
+    "@astrojs/rss": "^4.0.1",
+    "@astrojs/sitemap": "^3.0.3",
+    "@astrojs/tailwind": "^5.0.3",
+    "@pagefind/default-ui": "^1.0.4",
+    "@resvg/resvg-js": "^2.6.0",
+    "@tailwindcss/aspect-ratio": "^0.4.2",
+    "@tailwindcss/typography": "^0.5.10",
+    "astro": "^4.0.3",
+    "astro-icon": "^0.8.2",
+    "dayjs": "^1.11.11",
+    "pagefind": "^1.0.4",
+    "reading-time": "^1.5.0",
+    "rehype-external-links": "^3.0.0",
+    "remark-unwrap-images": "^4.0.0",
+    "satori": "^0.10.11",
+    "satori-html": "^0.3.2",
+    "typescript": "^5.3.3"
+  },
+  "engines": {
+    "node": "18.x"
+  },
+  "devDependencies": {
+    "svgo": "^2.8.0"
+  }
+}

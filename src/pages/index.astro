@@ -1,0 +1,38 @@
+---
+import PageLayout from "@/layouts/Base";
+import PostPreview from "@/components/blog/PostPreview";
+import SocialList from "@/components/SocialList";
+import Pagination from "@/components/Pagination";
+import { getAllPosts, sortMDByDate } from "@/utils";
+import { POSTS_PER_PAGE, siteConfig } from "@/site-config";
+
+const allPosts = await getAllPosts();
+const allPostsByDate = sortMDByDate(allPosts);
+const totalPages = Math.ceil(allPostsByDate.length / POSTS_PER_PAGE);
+const initialPosts = allPostsByDate.slice(0, POSTS_PER_PAGE);
+---
+
+<PageLayout meta={{ title: "Home" }}>
+  <section>
+    <h1 class="title mb-6">{siteConfig.index.title}</h1>
+    <p class="mb-4">
+      {siteConfig.index.subtitle}
+    </p>
+    <SocialList />
+  </section>
+  <section aria-label="Blog post list" class="mt-16">
+    <h2 class="title mb-4 text-xl">Posts</h2>
+    <ul class="space-y-4 sm:space-y-2">
+      {
+        initialPosts.map((p) => (
+          <li class="flex flex-col gap-x-2 sm:flex-row">
+            <PostPreview post={p} />
+          </li>
+        ))
+      }
+    </ul>
+  </section>
+  {totalPages > 1 && (
+    <Pagination currentPage={1} length={totalPages} firstUrl={`/postpage`} nextUrl={totalPages > 1 ? `/postpage/2` : null} />
+  )}
+</PageLayout>

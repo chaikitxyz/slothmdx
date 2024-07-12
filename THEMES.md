@@ -1,0 +1,100 @@
+# Themes
+
+- Sunset Forest
+
+```css
+:root {
+		color-scheme: light;
+		--theme-bg: 0deg 0% 98%;
+		--theme-link: 172deg 18% 41%;
+		--theme-text: 203deg 11% 15%;
+		--theme-accent: 351deg 66% 48%;
+		--theme-accent-2: 0deg 0% 7%;
+		--theme-quote: 351deg 66% 48%;
+	}
+
+	:root.dark {
+		color-scheme: dark;
+		--theme-bg: 210deg 6% 12%;
+		--theme-link: 330deg 49% 67%;
+		--theme-text: 220deg 3% 79%;
+		--theme-accent: 159deg 64% 45%;
+		--theme-accent-2: 0deg 0% 93%;
+		--theme-quote: 102deg 100% 86%;
+	}
+```
+
+- Autumn Grove
+
+```css
+:root {
+    color-scheme: light;
+    --theme-bg: 50deg 100% 98%;
+    --theme-link: 135deg 65% 45%;
+    --theme-text: 30deg 15% 25%;
+    --theme-accent: 35deg 90% 60%;
+    --theme-accent-2: 0deg 0% 10%;
+    --theme-quote: 35deg 90% 60%;
+}
+
+:root.dark {
+    color-scheme: dark;
+    --theme-bg: 120deg 20% 10%;
+    --theme-link: 135deg 65% 60%;
+    --theme-text: 30deg 5% 85%;
+    --theme-accent: 35deg 90% 70%;
+    --theme-accent-2: 0deg 0% 85%;
+    --theme-quote: 35deg 90% 70%;
+}
+
+```
+
+- Sunrise Orchid
+
+```css
+:root {
+    color-scheme: light;
+    --theme-bg: 60deg 100% 99%;
+    --theme-link: 270deg 65% 50%;
+    --theme-text: 240deg 15% 20%;
+    --theme-accent: 50deg 90% 55%;
+    --theme-accent-2: 0deg 0% 15%;
+    --theme-quote: 50deg 90% 55%;
+}
+
+:root.dark {
+    color-scheme: dark;
+    --theme-bg: 250deg 30% 15%;
+    --theme-link: 270deg 65% 65%;
+    --theme-text: 240deg 5% 80%;
+    --theme-accent: 50deg 90% 65%;
+    --theme-accent-2: 0deg 0% 80%;
+    --theme-quote: 50deg 90% 65%;
+}
+
+```
+
+- Crimson Tide
+
+```css
+:root {
+    color-scheme: light;
+    --theme-bg: 10deg 100% 97%;
+    --theme-link: 180deg 80% 40%;
+    --theme-text: 210deg 15% 30%;
+    --theme-accent: 0deg 85% 60%;
+    --theme-accent-2: 0deg 0% 20%;
+    --theme-quote: 0deg 85% 60%;
+}
+
+:root.dark {
+    color-scheme: dark;
+    --theme-bg: 0deg 10% 10%;
+    --theme-link: 180deg 80% 55%;
+    --theme-text: 210deg 5% 85%;
+    --theme-accent: 0deg 85% 70%;
+    --theme-accent-2: 0deg 0% 75%;
+    --theme-quote: 0deg 85% 70%;
+}
+
+```

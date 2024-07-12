@@ -1,0 +1,65 @@
+---
+import { Icon } from "astro-icon";
+const socialLinks: Array<{
+	name: string;
+	friendlyName: string;
+	link: string;
+}> = [
+{
+		name: "mdi:web",
+		friendlyName: "Website",
+		link: "https://www.montek.dev",
+	},
+	{
+		name: "ic:baseline-discord",
+		friendlyName: "Discord",
+		link: "https://discord.com/users/702170848508903444",
+	},
+	{
+		name: "mdi:github",
+		friendlyName: "Github",
+		link: "https://github.com/montekkundan",
+	},
+	{
+		name: "mdi:twitter",
+		friendlyName: "Twitter",
+		link: "https://www.x.com/montekkundan/",
+	},
+	{
+		name: "mdi:linkedin",
+		friendlyName: "LinkedIn",
+		link: "https://www.linkedin.com/in/montekkundan/",
+	},
+	{
+		name: "mdi:instagram",
+		friendlyName: "Instagram",
+		link: "https://www.instagram.com/montekkundan/",
+	},
+	{
+		name: "mdi:email",
+		friendlyName: "email",
+		link: "mailto:montekkundan@gmail.com",
+	},
+];
+---
+
+<div class="flex flex-wrap items-end gap-x-4">
+	<p>Find me on</p>
+	<ul class="flex flex-1 items-center gap-x-2 sm:flex-initial">
+		{
+			socialLinks.map(({ link, name, friendlyName }) => (
+				<li class="flex">
+					<a
+						class="inline-block p-1 sm:hover:text-link"
+						href={link}
+						target="_blank"
+						rel={`noopener noreferrer`}
+					>
+						<Icon class="h-6 w-6" name={name} aria-hidden="true" focusable="false" />
+						<span class="sr-only">{friendlyName}</span>
+					</a>
+				</li>
+			))
+		}
+	</ul>
+</div>

@@ -1,0 +1,24 @@
+---
+import type { HTMLAttributes } from "astro/types";
+import { getFormattedDate } from "@/utils";
+
+type Props = HTMLAttributes<"time"> & {
+	date: string | number | Date;
+	dateTimeOptions?: Intl.DateTimeFormatOptions;
+};
+
+const { date, dateTimeOptions, ...attrs } = Astro.props;
+
+// Ensure the date is a Date object
+const parsedDate = new Date(date);
+
+if (isNaN(parsedDate.getTime())) {
+  throw new Error("Invalid date provided to FormattedDate component.");
+}
+
+const postDate = getFormattedDate(parsedDate, dateTimeOptions);
+---
+
+<time datetime={parsedDate.toISOString()} {...attrs}>
+	{postDate}
+</time>
