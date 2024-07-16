@@ -44,12 +44,14 @@ const paginationList = Array.from({ length }, (_, i) => i + 1);
 <script lang="ts">
   function handleClick(event, url) {
     event.preventDefault();
-    
+
     // Stop any currently playing audio
-    const currentAudioPlayer = document.querySelector('audio');
-    if (currentAudioPlayer) {
-      currentAudioPlayer.pause();
-    }
+    const audioPlayers = document.querySelectorAll('audio');
+    audioPlayers.forEach(audio => {
+      if (!audio.paused) {
+        audio.pause();
+      }
+    });
 
     fetch(url)
       .then(response => response.text())
@@ -58,7 +60,9 @@ const paginationList = Array.from({ length }, (_, i) => i + 1);
         const doc = parser.parseFromString(html, 'text/html');
         const newContent = doc.querySelector('main');
         document.querySelector('main').innerHTML = newContent.innerHTML;
-        document.dispatchEvent(new Event('contentLoaded'));
+        document.dispatchEvent(new Event('astro:after-swap'));
       })
       .catch(error => console.error('Error loading new content:', error));
   }
+</script>
+

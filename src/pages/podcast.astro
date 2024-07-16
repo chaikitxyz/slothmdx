@@ -53,8 +53,7 @@ const initialPodcasts = allPodcastsByDate.slice(0, PODCASTS_PER_PAGE);
       const id = card.id.split('episode-card-')[1];
 
       const playButtons = card.querySelectorAll('.card-play-buttons');
-      const audioPlayerElement = new Audio();
-      audioPlayerElement.preload = 'metadata';
+      const audioPlayerElement = document.getElementById(`audio-player-${id}`);
 
       const seekSlider = card.querySelector(`#seek-slider-${id}`);
 
@@ -116,8 +115,18 @@ const initialPodcasts = allPodcastsByDate.slice(0, PODCASTS_PER_PAGE);
     });
   }
 
+  function stopPlayingAudio() {
+    const audioPlayers = document.querySelectorAll('audio');
+    audioPlayers.forEach(audio => {
+      if (!audio.paused) {
+        audio.pause();
+      }
+    });
+  }
+
   document.addEventListener('astro:page-load', initializePodcastCards);
   document.addEventListener('astro:after-swap', initializePodcastCards);
   document.addEventListener('DOMContentLoaded', initializePodcastCards);
-  document.addEventListener('contentLoaded', initializePodcastCards);
+  document.addEventListener('astro:before-swap', stopPlayingAudio);
+  document.addEventListener('beforeunload', stopPlayingAudio);
 </script>
