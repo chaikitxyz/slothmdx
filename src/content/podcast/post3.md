@@ -5,7 +5,6 @@ audioUrl: /audio/music2.mp3
 publishDate: "10 Sept 2023"
 duration: 01:05
 size: 0.7
-cover: ""
 explicit: false
 episode: 1
 season: 1

@@ -34,7 +34,8 @@ const post = defineCollection({
 });
 const podcast = defineCollection({
   type: 'content',
-  schema: z.object({
+  schema: ({ image }) => 
+    z.object({
     title: z.string(),
     description: z.string().min(50).max(160),
     audioUrl: z.string(),
@@ -48,7 +49,12 @@ const podcast = defineCollection({
       .transform((str) => (str ? new Date(str) : undefined)),
     duration: z.string(),
     size: z.number(),
-    cover: z.string().optional(),
+    coverImage: z
+        .object({
+          src: image(),
+          alt: z.string(),
+        })
+        .optional(),
     explicit: z.boolean().default(false),
     episode: z.number(),
     season: z.number(),

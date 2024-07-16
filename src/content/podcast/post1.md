@@ -5,7 +5,6 @@ audioUrl: /audio/rick.mp3
 publishDate: "15 July 2024"
 duration: 00:69
 size: 0.7
-cover: ""
 explicit: false
 episode: 1
 season: 1

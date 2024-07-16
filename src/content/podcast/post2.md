@@ -5,7 +5,6 @@ audioUrl: /audio/music1.mp3
 publishDate: "10 July 2024"
 duration: 01:32
 size: 0.7
-cover: ""
 explicit: false
 episode: 1
 season: 1

@@ -28,7 +28,6 @@ const { page } = Astro.props;
         page.data.map((episode, index) => (
           <PodcastCard
             title={episode.data.title}
-            cover={episode.data.cover}
             url={episode.data.audioUrl}
             audioUrl={episode.data.audioUrl}
             pubDate={episode.data.publishDate}
