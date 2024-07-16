@@ -1,10 +1,10 @@
 ---
-import { socialLinks } from "@/site-config";
+import { siteConfig, socialLinks } from "@/site-config";
 import { Icon } from "astro-icon";
 ---
 
 <div class="flex flex-wrap items-end gap-x-4">
-	<p>Find me on</p>
+	<p>{siteConfig.socialLinks.title}</p>
 	<ul class="flex flex-1 items-center gap-x-2 sm:flex-initial">
 		{
 			socialLinks.map(({ link, name, friendlyName }) => (

@@ -19,7 +19,14 @@ export type SiteConfig = {
 		title: string;
 		subtitle: string;
 	};
+	socialLinks: {
+		title: string
+	};
 	about: {
+		title: string;
+		subtitle: string;
+	};
+	podcast: {
 		title: string;
 		subtitle: string;
 	};

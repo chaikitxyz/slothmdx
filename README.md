@@ -30,7 +30,7 @@ You can change the site's base configuration in
 `src/site.config.ts`. This is where you can set the site's title, description, and other metadata.
 Also can change links for both header and footer with the `menuLinks`.
 
-Theme options: [theme file](./THEMES.md)
+Theme options: `THEME.md` file
 
 ## Commands
 

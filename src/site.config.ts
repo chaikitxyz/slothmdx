@@ -1,15 +1,15 @@
 import type { SiteConfig } from "@/types";
 
 export const siteConfig: SiteConfig = {
-	// Used as both a meta property (src/components/BaseHead.astro L:31 + L:49) & the generated satori png (src/pages/og-image/[slug].png.ts)
-	author: "Montek Kundan",
-	// Meta property used to construct the meta title property, found in src/components/BaseHead.astro L:11
-	title: "Montek Devlog",
+	// Used as a meta property (src/components/BaseHead.astro)
+	author: "Chaikit",
+	// Meta property used to construct the meta title property, found in src/components/BaseHead.astro
+	title: "Chaikit Slothmdx",
 	// Meta property used as the default description meta property
-	description: "My digital garden of Logs + Projects",
-	// HTML lang property, found in src/layouts/Base.astro L:18
+	description: "Astro + MDX - Blog + Podcast Starter",
+	// HTML lang property, found in src/layouts/Base.astro
 	lang: "en",
-	// Meta property, found in src/components/BaseHead.astro L:42
+	// Meta property, found in src/components/BaseHead.astro
 	ogLocale: "en",
 	// Date.prototype.toLocaleDateString() parameters, found in src/utils/date.ts.
 	date: {
@@ -22,42 +22,29 @@ export const siteConfig: SiteConfig = {
 	},
 	header: {
 		logo : {
-			url: "https://montek.dev",
-			name: "Montek"
+			url: "https://chaikit.xyz",
+			name: "Chaikit"
 		},
 		blogTitle: "Devlog"
 	},
 	index: {
 		title: "Hello World!",
-		subtitle: "Hi! My digital garden contains all my logs about the projects I find interesting. I hope you learn something from my logs and projects!",
+		subtitle: "Hi! This is the home page for your very own Astro + MDX blog and podcasts 🚀. Easily enter markdown and audio files to your website!",
+	},
+	socialLinks :{
+		title: "Find me on"
 	},
 	about: {
 		title: "About",
-		subtitle: `Hi, you can learn more about me on montek.dev`,
+		subtitle: `Hi, here you can talk about yourself, your interests, and your hobbies.`,
+	},
+	podcast: {
+		title: "Podcast",
+		subtitle: "Hi! This is the podcast page for your very own Astro + MDX blog and podcasts 🚀. Easily enter audio files to your website!"
 	},
 	// Theme options: "Sunset Forest", "Autumn Grove", "Sunrise Orchid", "Crimson Tide"
-	theme: "Sunset Forest"
+	theme: "Crimson Tide"
 };
-
-// Used to generate links in both the Header & Footer.
-export const menuLinks: Array<{ title: string; path: string }> = [
-	{
-		title: "Home",
-		path: "/",
-	},
-	{
-		title: "About",
-		path: "/about/",
-	},
-	{
-		title: "Devlog",
-		path: "/posts/",
-	},
-	{
-		title: "Podcast",
-		path: "/podcast/",
-	},
-];
 
 // Social icons used in src/components/SocialList.astro
 // shown on 
@@ -100,6 +87,27 @@ export const socialLinks: Array<{
 		name: "mdi:email",
 		friendlyName: "email",
 		link: "mailto:montekkundan@gmail.com",
+	},
+];
+
+
+// Used to generate links in both the Header & Footer.
+export const menuLinks: Array<{ title: string; path: string }> = [
+	{
+		title: "Home",
+		path: "/",
+	},
+	{
+		title: "About",
+		path: "/about/",
+	},
+	{
+		title: "Devlog",
+		path: "/posts/",
+	},
+	{
+		title: "Podcast",
+		path: "/podcast/",
 	},
 ];
 
