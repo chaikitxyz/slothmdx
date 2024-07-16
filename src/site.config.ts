@@ -59,5 +59,49 @@ export const menuLinks: Array<{ title: string; path: string }> = [
 	},
 ];
 
+// Social icons used in src/components/SocialList.astro
+// shown on 
+export const socialLinks: Array<{
+	name: string;
+	friendlyName: string;
+	link: string;
+}> = [
+{
+		name: "mdi:web",
+		friendlyName: "Website",
+		link: "https://www.montek.dev",
+	},
+	{
+		name: "ic:baseline-discord",
+		friendlyName: "Discord",
+		link: "https://discord.com/users/702170848508903444",
+	},
+	{
+		name: "mdi:github",
+		friendlyName: "Github",
+		link: "https://github.com/montekkundan",
+	},
+	{
+		name: "mdi:twitter",
+		friendlyName: "Twitter",
+		link: "https://www.x.com/montekkundan/",
+	},
+	{
+		name: "mdi:linkedin",
+		friendlyName: "LinkedIn",
+		link: "https://www.linkedin.com/in/montekkundan/",
+	},
+	{
+		name: "mdi:instagram",
+		friendlyName: "Instagram",
+		link: "https://www.instagram.com/montekkundan/",
+	},
+	{
+		name: "mdi:email",
+		friendlyName: "email",
+		link: "mailto:montekkundan@gmail.com",
+	},
+];
+
 export const POSTS_PER_PAGE = 5;
 export const PODCASTS_PER_PAGE = 2;
