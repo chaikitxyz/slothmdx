@@ -141,21 +141,21 @@ declare module 'astro:content' {
   slug: "post1";
   body: string;
   collection: "podcast";
-  data: any
+  data: InferEntrySchema<"podcast">
 } & { render(): Render[".md"] };
 "post2.md": {
 	id: "post2.md";
   slug: "post2";
   body: string;
   collection: "podcast";
-  data: any
+  data: InferEntrySchema<"podcast">
 } & { render(): Render[".md"] };
 "post3.md": {
 	id: "post3.md";
   slug: "post3";
   body: string;
   collection: "podcast";
-  data: any
+  data: InferEntrySchema<"podcast">
 } & { render(): Render[".md"] };
 };
 "post": {
@@ -169,6 +169,13 @@ declare module 'astro:content' {
 "draft-post.md": {
 	id: "draft-post.md";
   slug: "draft-post";
+  body: string;
+  collection: "post";
+  data: InferEntrySchema<"post">
+} & { render(): Render[".md"] };
+"long-title.md": {
+	id: "long-title.md";
+  slug: "long-title";
   body: string;
   collection: "post";
   data: InferEntrySchema<"post">

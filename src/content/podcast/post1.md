@@ -1,5 +1,6 @@
 ---
 title: Demo Episode 3
+description: "This is an episode demo of Slothmdx. Here you can add the description of your episode."
 audioUrl: /audio/sample.mp3
 publishDate: "10 Sept 2023"
 duration: 00:32

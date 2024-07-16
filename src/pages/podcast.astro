@@ -26,9 +26,9 @@ const initialPodcasts = allPodcastsByDate.slice(0, PODCASTS_PER_PAGE);
               cover={episode.data.cover}
               url={episode.data.audioUrl}
               audioUrl={episode.data.audioUrl}
-              pubDate={episode.data.pubDate}
+              pubDate={episode.data.publishDate}
               duration={episode.data.duration}
-              displayDate={episode.data.publishDate}
+              updateDate={episode.data.updatedDate}
               slug={episode.slug}
               id={`card-${index}`}
             />

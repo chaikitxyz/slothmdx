@@ -1,5 +1,5 @@
 ---
-const { title, desc, duration, displayDate, audioUrl, id, slug } = Astro.props;
+const { title, desc, duration, updateDate, pubDate, audioUrl, id, slug } = Astro.props;
 import PlayIcon from './icons/playIcon.astro';
 import PauseIcon from './icons/pauseIcon.astro';
 
@@ -20,6 +20,13 @@ function formatTime(secs: any) {
     : `${formattedMinutes}:${formattedSeconds}`;
 }
 const displayDuration = formatTime(duration);
+
+const parsedPublishDate = new Date(pubDate);
+const parsedUpdatedDate = updateDate ? new Date(updateDate) : null;
+const options: Intl.DateTimeFormatOptions = { year: 'numeric', month: 'long', day: 'numeric' };
+const podcastDate = parsedUpdatedDate 
+  ? parsedUpdatedDate.toLocaleDateString('en-US', options) 
+  : parsedPublishDate.toLocaleDateString('en-US', options);
 ---
 
 <div class='episode-card' id={`episode-card-${id}`}>
@@ -40,7 +47,7 @@ const displayDuration = formatTime(duration);
       />
       <p class='text-xs font-medium opacity-60'>
         {displayDuration && displayDuration + ' • '}
-        {displayDate}
+        {podcastDate}
       </p>
       <p class='my-1 text-xs md:text-sm line-clamp-2'>{desc}</p>
     </div>

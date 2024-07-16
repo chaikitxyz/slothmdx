@@ -8,11 +8,12 @@ export async function getAllPodcasts() {
 	});
 }
 
-export function sortPodcastByDate(entries: CollectionEntry<"podcast">[]): CollectionEntry<"podcast">[] {
-	return entries.sort((a, b) => {
-	  const dateA = new Date(a.data.publishDate).getTime();
-	  const dateB = new Date(b.data.publishDate).getTime();
-	  return dateB - dateA;
+export function sortPodcastByDate(posts: Array<CollectionEntry<"podcast">>) {
+	return posts.sort((a, b) => {
+		const aDate = new Date(a.data.updatedDate ?? a.data.publishDate).valueOf();
+		const bDate = new Date(b.data.updatedDate ?? b.data.publishDate).valueOf();
+		return bDate - aDate;
 	});
-  }
+}
+
 
