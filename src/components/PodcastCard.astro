@@ -1,13 +1,12 @@
 ---
-const { title, desc, url, duration, displayDate, audioUrl, id } = Astro.props;
-import PlayIcon from "./icons/playIcon.astro";
-import PauseIcon from "./icons/pauseIcon.astro";
-import AudioPlayer from "./audioPlayer.astro";
+const { title, desc, duration, displayDate, audioUrl, id, slug } = Astro.props;
+import PlayIcon from './icons/playIcon.astro';
+import PauseIcon from './icons/pauseIcon.astro';
 
-function formatTime(secs:any) {
+function formatTime(secs: any) {
   if (isNaN(secs) || secs < 0) {
-    const segmentedTime = secs.split(":");
-    return segmentedTime[0] == "00" || segmentedTime[0] == "0" ? secs : null;
+    const segmentedTime = secs.split(':');
+    return segmentedTime[0] == '00' || segmentedTime[0] == '0' ? secs : null;
   }
 
   const hours = Math.floor(secs / 3600);
@@ -16,47 +15,52 @@ function formatTime(secs:any) {
   const formattedMinutes = minutes < 10 ? `0${minutes}` : minutes;
   const formattedSeconds = seconds < 10 ? `0${seconds}` : seconds;
 
-  return hours > 0 ? `${hours}:${formattedMinutes}:${formattedSeconds}` : `${minutes}:${formattedSeconds}`;
+  return hours > 0
+    ? `${hours}:${formattedMinutes}:${formattedSeconds}`
+    : `${formattedMinutes}:${formattedSeconds}`;
 }
-
 const displayDuration = formatTime(duration);
-
-console.log(`Rendering PodcastCard with id: ${id}`);
 ---
 
-<div class="episode-card" id={`episode-card-${id}`}>
-  <div class="flex justify-center items-center max-w-7xl p-4 gap-4 flex-row">
-    <div class="grow w-full overflow-auto">
-      <a href={url}>
-        <h2 class="md:text-xl text-sm font-semibold truncate">
+<div class='episode-card' id={`episode-card-${id}`}>
+  <div class='flex justify-center items-center max-w-7xl p-4 gap-4 flex-row'>
+    <div class='grow w-full overflow-auto'>
+      <h2 class='md:text-xl text-sm font-semibold truncate'>
+        <a href={`/podcast/${slug}/`} class='sloth-link' data-astro-prefetch>
           {title}
-        </h2>
-        <p class="text-xs font-medium opacity-60">
-          {displayDuration && displayDuration + " • "}
-          {displayDate}
-        </p>
-        <p class="my-1 text-xs md:text-sm line-clamp-2">{desc}</p>
-      </a>
+        </a>
+      </h2>
+      <input
+        id={`seek-slider-${id}`}
+        type='range'
+        min='0'
+        max='0'
+        value='0'
+        class='range range-xs my-2 flex-grow'
+      />
+      <p class='text-xs font-medium opacity-60'>
+        {displayDuration && displayDuration + ' • '}
+        {displayDate}
+      </p>
+      <p class='my-1 text-xs md:text-sm line-clamp-2'>{desc}</p>
     </div>
-    <label class="btn btn-circle md:mx-2 swap">
-      <input type="checkbox" class="card-play-buttons" id={`play-button-${id}`} data-audio-url={audioUrl} aria-label="Play and pause" />
-      <div class="swap-off">
-        <PlayIcon />
-      </div>
-      <div class="swap-on">
+    <label class='btn btn-circle md:mx-2 swap'>
+      <input
+        type='checkbox'
+        class='card-play-buttons'
+        id={`play-button-${id}`}
+        data-audio-url={audioUrl}
+        aria-label='Play and pause'
+      />
+      <div class='swap-off'>
         <PauseIcon />
+      </div>
+      <div class='swap-on'>
+        <PlayIcon />
       </div>
     </label>
   </div>
-  <div class="audio-player-container hidden" id={`audio-player-container-${id}`}>
-    <AudioPlayer audioUrl={audioUrl} id={id} />
-  </div>
-  <div class="w-full text-center">
-    <button class="btn btn-circle toggle-audio" id={`toggle-audio-${id}`} aria-label="Show/Hide Audio Player">
-      v
-    </button>
-  </div>
-  <hr class="my-3 border-base-content opacity-[.15]" />
+  <hr class='my-3 border-base-content opacity-[.15]' />
 </div>
 
 <style>
@@ -99,116 +103,145 @@ console.log(`Rendering PodcastCard with id: ${id}`);
   .episode-card:last-child hr {
     display: none;
   }
-  .audio-player-container {
-    margin-top: 1rem;
-  }
   .text-center {
     text-align: center;
   }
 </style>
 
-<script lang="ts">
- document.addEventListener("DOMContentLoaded", function() {
-  const podcastCards = document.querySelectorAll(".episode-card");
-  podcastCards.forEach((card) => {
-    const id = card.id.split("episode-card-")[1];
+<script lang='ts'>
+  document.addEventListener('DOMContentLoaded', function () {
+    let currentAudioPlayer = null;
+    let currentPlayButton = null;
 
-    const playIconContainer = document.getElementById(`play-icon-${id}`);
-    const muteIconContainer = document.getElementById(`mute-icon-${id}`);
-    const audioControl = document.getElementById(`audio-control-${id}`);
-    const audioLoading = document.getElementById(`audio-loading-${id}`);
-    const audioDownloadLink = document.getElementById(`audio-download-link-${id}`);
-    
-    const audio = document.getElementById(`audio-${id}`);
-    const durationContainer = document.getElementById(`duration-${id}`);
-    const currentTimeContainer = document.getElementById(`current-time-${id}`);
-    const seekSlider = document.getElementById(`seek-slider-${id}`);
-    
-    const calculateTime = (secs) => {
-      const hours = Math.floor(secs / 3600);
-      const minutes = Math.floor((secs % 3600) / 60);
-      const seconds = Math.floor(secs % 60);
-      const formattedMinutes = minutes < 10 ? `0${minutes}` : minutes;
-      const formattedSeconds = seconds < 10 ? `0${seconds}` : seconds;
-    
-      return hours > 0 ? `${hours}:${formattedMinutes}:${formattedSeconds}` : `${formattedMinutes}:${formattedSeconds}`;
-    };
-    
-    const displayDuration = () => {
-      durationContainer.textContent = calculateTime(audio.duration);
-    };
-    
-    if (audio.readyState > 0) {
-      displayDuration();
-      audioLoading.classList.add("hidden");
-      audioControl.classList.remove("hidden");
-    } else {
-      audio.addEventListener("loadedmetadata", () => {
-        displayDuration();
-        seekSlider.max = audio.duration.toString();
-        audioLoading.classList.add("hidden");
-        audioControl.classList.remove("hidden");
+    function initializePodcastCards() {
+      const podcastCards = document.querySelectorAll('.episode-card');
+
+      podcastCards.forEach((card) => {
+        const id = card.id.split('episode-card-')[1];
+
+        const playButtons = card.querySelectorAll('.card-play-buttons');
+        const audioPlayerElement = new Audio();
+        audioPlayerElement.preload = 'metadata';
+
+        const seekSlider = card.querySelector(`#seek-slider-${id}`);
+
+        const calculateTime = (secs) => {
+          const hours = Math.floor(secs / 3600);
+          const minutes = Math.floor((secs % 3600) / 60);
+          const seconds = Math.floor(secs % 60);
+          const formattedMinutes = minutes < 10 ? `0${minutes}` : minutes;
+          const formattedSeconds = seconds < 10 ? `0${seconds}` : seconds;
+
+          return hours > 0
+            ? `${hours}:${formattedMinutes}:${formattedSeconds}`
+            : `${formattedMinutes}:${formattedSeconds}`;
+        };
+
+        const displayDuration = () => {
+          if (seekSlider) {
+            seekSlider.max = audioPlayerElement.duration.toString();
+          }
+        };
+
+        audioPlayerElement.addEventListener('loadedmetadata', () => {
+          displayDuration();
+        });
+
+        playButtons.forEach((btn) => {
+          btn.addEventListener('change', () => {
+            if (btn.checked) {
+              audioPlayerElement.src = btn.dataset.audioUrl;
+              if (
+                currentAudioPlayer &&
+                currentAudioPlayer !== audioPlayerElement
+              ) {
+                currentAudioPlayer.pause();
+                currentPlayButton.checked = false;
+              }
+              currentAudioPlayer = audioPlayerElement;
+              currentPlayButton = btn;
+              audioPlayerElement.play().catch((error) => {
+                if (error.name !== 'AbortError') {
+                  console.error('Audio play interrupted:', error);
+                }
+              });
+            } else {
+              audioPlayerElement.pause();
+            }
+          });
+        });
+
+        seekSlider?.addEventListener('input', () => {
+          audioPlayerElement.currentTime = parseFloat(seekSlider.value);
+        });
+
+        seekSlider.addEventListener('change', () => {
+          audioPlayerElement.currentTime = parseFloat(seekSlider.value);
+        });
+
+        audioPlayerElement.addEventListener('timeupdate', () => {
+          if (seekSlider) {
+            seekSlider.value = Math.floor(
+              audioPlayerElement.currentTime
+            ).toString();
+          }
+        });
+
+        audioPlayerElement.addEventListener('play', () => {
+          if (currentPlayButton) {
+            currentPlayButton.checked = true;
+          }
+        });
+
+        audioPlayerElement.addEventListener('pause', () => {
+          if (currentPlayButton) {
+            currentPlayButton.checked = false;
+          }
+        });
       });
     }
-    
-    muteIconContainer.addEventListener("click", () => {
-      audio.muted = muteIconContainer.checked;
-    });
-    
-    playIconContainer.onchange = function () {
-      if (playIconContainer.checked) {
-        audio.play().catch(error => console.error('Audio play interrupted:', error));
-      } else {
-        audio.pause();
+
+    function reinitializeOnNavigation() {
+      const links = document.querySelectorAll('a');
+      links.forEach((link) => {
+        link.addEventListener('click', (e) => {
+          const url = link.href;
+          const isSamePageLink =
+            link.getAttribute('href') === window.location.pathname;
+          if (!isSamePageLink) {
+            e.preventDefault();
+            fetch(url)
+              .then((response) => response.text())
+              .then((html) => {
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(html, 'text/html');
+                const newContent = doc.querySelector('main');
+                document.querySelector('main').innerHTML = newContent.innerHTML;
+                document.dispatchEvent(new Event('contentLoaded'));
+              })
+              .catch((error) =>
+                console.error('Error loading new content:', error)
+              );
+          }
+        });
+      });
+    }
+
+    initializePodcastCards();
+    reinitializeOnNavigation();
+
+    window.addEventListener('load', initializePodcastCards);
+    document.addEventListener('contentLoaded', () => {
+      if (currentAudioPlayer) {
+        currentAudioPlayer.pause();
+        currentPlayButton.checked = false;
       }
-    };
-    
-    seekSlider.addEventListener("input", () => {
-      currentTimeContainer.textContent = calculateTime(parseFloat(seekSlider.value));
-    });
-    
-    seekSlider.addEventListener("change", () => {
-      audio.currentTime = parseFloat(seekSlider.value);
-    });
-    
-    audio.addEventListener("timeupdate", () => {
-      seekSlider.value = Math.floor(audio.currentTime).toString();
-      currentTimeContainer.textContent = calculateTime(parseFloat(seekSlider.value));
+      initializePodcastCards();
+      reinitializeOnNavigation();
     });
 
-    const playButtons = document.querySelectorAll(".card-play-buttons");
-
-    playButtons.forEach((btn) => {
-      btn.addEventListener("click", () => {
-        const button = btn;
-        const audioPlayerContainer = button.closest('.episode-card').querySelector('.audio-player-container');
-        const audioPlayerElement = audioPlayerContainer.querySelector("audio");
-        if (audioPlayerElement && !audioPlayerElement.src.includes(button.dataset.audioUrl)) {
-          audioPlayerContainer.classList.remove("hidden");
-          audioPlayerContainer.style.display = "flex";
-          audioLoading.classList.remove("hidden");
-          audioControl.classList.add("hidden");
-          durationContainer.textContent = "0:00";
-          currentTimeContainer.textContent = "0:00";
-          audioPlayerElement.src = button.dataset.audioUrl;
-          audioDownloadLink.href = button.dataset.audioUrl;
-          disableOthersPlayButtons(button.id, playButtons);
-          playIconContainer.checked = true;
-          audioPlayerElement.play().catch(error => console.error('Audio play interrupted:', error));
-        } else {
-          playIconContainer.click();
-        }
-      });
+    document.addEventListener('astro:after-swap', () => {
+      initializePodcastCards();
     });
-    
-    function disableOthersPlayButtons(id, playButtons) {
-      playButtons.forEach((btn) => {
-        const button = btn;
-        if (button.id !== id) {
-          button.checked = false;
-        }
-      });
-    }
   });
-});
 </script>

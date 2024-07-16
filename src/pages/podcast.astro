@@ -9,9 +9,6 @@ const allPodcasts = await getAllPodcasts();
 const allPodcastsByDate = sortPodcastByDate(allPodcasts);
 const totalPages = Math.ceil(allPodcastsByDate.length / PODCASTS_PER_PAGE);
 const initialPodcasts = allPodcastsByDate.slice(0, PODCASTS_PER_PAGE);
-
-console.log("All Podcasts by Date:", allPodcastsByDate);
-console.log("Initial Podcasts:", initialPodcasts);
 ---
 
 <PageLayout meta={{ title: "Podcast" }}>
@@ -23,7 +20,6 @@ console.log("Initial Podcasts:", initialPodcasts);
     <div class="card min-w-full bg-base-100 shadow-md p-3 pb-3 mt-12">
       {
         initialPodcasts.map((episode, index) => {
-          console.log(`Rendering PodcastCard with id: ${index}`);
           return (
             <PodcastCard
               title={episode.data.title}
@@ -33,6 +29,7 @@ console.log("Initial Podcasts:", initialPodcasts);
               pubDate={episode.data.pubDate}
               duration={episode.data.duration}
               displayDate={episode.data.publishDate}
+              slug={episode.slug}
               id={`card-${index}`}
             />
           );

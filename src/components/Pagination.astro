@@ -1,22 +1,23 @@
 ---
 const { length, currentPage, firstUrl, prevUrl, nextUrl } = Astro.props;
 const paginationList = Array.from({ length }, (_, i) => i + 1);
+
 ---
 
 <nav aria-label="Pagination" class="pagination">
-  <a href={prevUrl ?? "#"} class="pagination__link" aria-disabled={currentPage === 1} onclick={currentPage === 1 ? "return false;" : ""}>
+  <a href={prevUrl ?? "#"} class="pagination__link" aria-disabled={currentPage === 1} onclick={currentPage === 1 ? "return false;" : `handleClick(event, '${prevUrl}')`}>
     Previous
   </a>
   <div class="pagination__numbers">
     {
       paginationList.map((num) => (
-        <a href={num === 1 ? firstUrl : `${firstUrl}/${num}`} class={`pagination__link ${currentPage === num ? "active" : ""}`}>
+        <a href={num === 1 ? firstUrl : `${firstUrl}/${num}`} class={`pagination__link ${currentPage === num ? "active" : ""}`} onclick={`handleClick(event, '${num === 1 ? firstUrl : `${firstUrl}/${num}`}')`}>
           {num}
         </a>
       ))
     }
   </div>
-  <a href={nextUrl ?? "#"} class="pagination__link" aria-disabled={currentPage === length} onclick={currentPage === length ? "return false;" : ""}>
+  <a href={nextUrl ?? "#"} class="pagination__link" aria-disabled={currentPage === length} onclick={currentPage === length ? "return false;" : `handleClick(event, '${nextUrl}')`}>
     Next
   </a>
 </nav>
@@ -40,3 +41,18 @@ const paginationList = Array.from({ length }, (_, i) => i + 1);
     font-weight: bold;
   }
 </style>
+<script lang="ts">
+  function handleClick(event, url) {
+  event.preventDefault();
+  fetch(url)
+    .then(response => response.text())
+    .then(html => {
+      const parser = new DOMParser();
+      const doc = parser.parseFromString(html, 'text/html');
+      const newContent = doc.querySelector('main');
+      document.querySelector('main').innerHTML = newContent.innerHTML;
+      document.dispatchEvent(new Event('contentLoaded'));
+    })
+    .catch(error => console.error('Error loading new content:', error));
+}
+</script>

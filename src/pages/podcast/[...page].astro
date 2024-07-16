@@ -34,7 +34,8 @@ const { page } = Astro.props;
             pubDate={episode.data.pubDate}
             duration={episode.data.duration}
             displayDate={episode.data.publishDate}
-            id={"card-" + index}
+            slug={episode.slug}
+            id={`card-${index}`}
           />
         ))
       }
