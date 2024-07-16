@@ -3,7 +3,7 @@ title: Never gonna give you up
 description: "This is an episode demo of Slothmdx. Here you can add the description of your episode."
 audioUrl: /audio/rick.mp3
 publishDate: "15 July 2024"
-duration: 00:10
+duration: 00:69
 size: 0.7
 cover: ""
 explicit: false
