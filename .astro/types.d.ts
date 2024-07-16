@@ -180,6 +180,20 @@ declare module 'astro:content' {
   collection: "post";
   data: InferEntrySchema<"post">
 } & { render(): Render[".md"] };
+"markdown-elements/index.md": {
+	id: "markdown-elements/index.md";
+  slug: "markdown-elements";
+  body: string;
+  collection: "post";
+  data: InferEntrySchema<"post">
+} & { render(): Render[".md"] };
+"missing-content.md": {
+	id: "missing-content.md";
+  slug: "missing-content";
+  body: string;
+  collection: "post";
+  data: InferEntrySchema<"post">
+} & { render(): Render[".md"] };
 "test.md": {
 	id: "test.md";
   slug: "test";
