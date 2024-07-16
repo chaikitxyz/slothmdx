@@ -41,3 +41,83 @@ const initialPodcasts = allPodcastsByDate.slice(0, PODCASTS_PER_PAGE);
     )}
   </section>
 </PageLayout>
+
+<script lang="ts">
+  function initializePodcastCards() {
+    let currentAudioPlayer = null;
+    let currentPlayButton = null;
+
+    const podcastCards = document.querySelectorAll('.episode-card');
+
+    podcastCards.forEach((card) => {
+      const id = card.id.split('episode-card-')[1];
+
+      const playButtons = card.querySelectorAll('.card-play-buttons');
+      const audioPlayerElement = new Audio();
+      audioPlayerElement.preload = 'metadata';
+
+      const seekSlider = card.querySelector(`#seek-slider-${id}`);
+
+      const displayDuration = () => {
+        if (seekSlider) {
+          seekSlider.max = audioPlayerElement.duration.toString();
+        }
+      };
+      audioPlayerElement.addEventListener('loadedmetadata', () => {
+        displayDuration();
+      });
+
+      playButtons.forEach((btn) => {
+        btn.addEventListener('change', () => {
+          if (btn.checked) {
+            audioPlayerElement.src = btn.dataset.audioUrl;
+            if (currentAudioPlayer && currentAudioPlayer !== audioPlayerElement) {
+              currentAudioPlayer.pause();
+              currentPlayButton.checked = false;
+            }
+            currentAudioPlayer = audioPlayerElement;
+            currentPlayButton = btn;
+            audioPlayerElement.play().catch((error) => {
+              if (error.name !== 'AbortError') {
+                console.error('Audio play interrupted:', error);
+              }
+            });
+          } else {
+            audioPlayerElement.pause();
+          }
+        });
+      });
+
+      seekSlider?.addEventListener('input', () => {
+        audioPlayerElement.currentTime = parseFloat(seekSlider.value);
+      });
+
+      seekSlider.addEventListener('change', () => {
+        audioPlayerElement.currentTime = parseFloat(seekSlider.value);
+      });
+
+      audioPlayerElement.addEventListener('timeupdate', () => {
+        if (seekSlider) {
+          seekSlider.value = Math.floor(audioPlayerElement.currentTime).toString();
+        }
+      });
+
+      audioPlayerElement.addEventListener('play', () => {
+        if (currentPlayButton) {
+          currentPlayButton.checked = true;
+        }
+      });
+
+      audioPlayerElement.addEventListener('pause', () => {
+        if (currentPlayButton) {
+          currentPlayButton.checked = false;
+        }
+      });
+    });
+  }
+
+  document.addEventListener('astro:page-load', initializePodcastCards);
+  document.addEventListener('astro:after-swap', initializePodcastCards);
+  document.addEventListener('DOMContentLoaded', initializePodcastCards);
+  document.addEventListener('contentLoaded', initializePodcastCards);
+</script>

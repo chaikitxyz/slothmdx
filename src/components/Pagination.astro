@@ -43,16 +43,22 @@ const paginationList = Array.from({ length }, (_, i) => i + 1);
 </style>
 <script lang="ts">
   function handleClick(event, url) {
-  event.preventDefault();
-  fetch(url)
-    .then(response => response.text())
-    .then(html => {
-      const parser = new DOMParser();
-      const doc = parser.parseFromString(html, 'text/html');
-      const newContent = doc.querySelector('main');
-      document.querySelector('main').innerHTML = newContent.innerHTML;
-      document.dispatchEvent(new Event('contentLoaded'));
-    })
-    .catch(error => console.error('Error loading new content:', error));
-}
-</script>
+    event.preventDefault();
+    
+    // Stop any currently playing audio
+    const currentAudioPlayer = document.querySelector('audio');
+    if (currentAudioPlayer) {
+      currentAudioPlayer.pause();
+    }
+
+    fetch(url)
+      .then(response => response.text())
+      .then(html => {
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(html, 'text/html');
+        const newContent = doc.querySelector('main');
+        document.querySelector('main').innerHTML = newContent.innerHTML;
+        document.dispatchEvent(new Event('contentLoaded'));
+      })
+      .catch(error => console.error('Error loading new content:', error));
+  }
