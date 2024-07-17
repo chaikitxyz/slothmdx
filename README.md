@@ -1,8 +1,10 @@
 # SlothMdx Astro
 
+This is a [Astro](https://astro.build) project, inspired from [Astro Cactus](https://astro.build/themes/details/astro-cactus) and [Astropod](https://astro.build/themes/details/astropod-free-serverless-podcast)
+
 ## Project Structure
 
-Inside of your Astro project, you'll see the following folders and files:
+Inside of your Astro project, you'll see the following folders and files structure:
 
 ```text
 /
@@ -10,7 +12,11 @@ Inside of your Astro project, you'll see the following folders and files:
 │   └── favicon.svg
 ├── src/
 │   ├── components/
-│   │   └── Card.astro
+│   │   └── Search.astro
+│   ├── content/
+│   │   ├── post/
+│   │   ├── podcast/
+│   │   └── config.ts
 │   ├── layouts/
 │   │   └── Layout.astro
 │   └── pages/

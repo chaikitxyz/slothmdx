@@ -27,6 +27,7 @@ export const siteConfig: SiteConfig = {
 		},
 		blogTitle: "Devlog"
 	},
+	// src/pages file config ->
 	index: {
 		title: "Hello World!",
 		subtitle: "Hi! This is the home page for your very own Astro + MDX blog and podcasts 🚀. Easily enter markdown and audio files to your website!",
@@ -47,7 +48,7 @@ export const siteConfig: SiteConfig = {
 };
 
 // Social icons used in src/components/SocialList.astro
-// shown on 
+// shown on home page src/pages/index.astro
 export const socialLinks: Array<{
 	name: string;
 	friendlyName: string;
@@ -111,5 +112,6 @@ export const menuLinks: Array<{ title: string; path: string }> = [
 	},
 ];
 
+// The maxium number of posts and podcasts to display on a single page.
 export const POSTS_PER_PAGE = 5;
 export const PODCASTS_PER_PAGE = 2;
