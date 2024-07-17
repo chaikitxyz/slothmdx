@@ -1,6 +1,10 @@
-import { siteConfig } from "@/site-config";
+import siteConfig from "src/siteConfig.json";
 
-const dateFormat = new Intl.DateTimeFormat(siteConfig.date.locale, siteConfig.date.options);
+const dateFormat = new Intl.DateTimeFormat(siteConfig.date.locale, {
+	day: siteConfig.date.options.day as "numeric" | "2-digit",
+	month: siteConfig.date.options.month as "numeric" | "2-digit" | "narrow" | "short" | "long",
+	year: siteConfig.date.options.year as "numeric" | "2-digit"
+  });
 
 export function getFormattedDate(
 	date: string | number | Date,

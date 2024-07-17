@@ -4,14 +4,14 @@ import PostPreview from "@/components/blog/PostPreview";
 import SocialList from "@/components/SocialList";
 import Pagination from "@/components/Pagination";
 import { getAllPosts, sortMDByDate } from "@/utils";
-import { POSTS_PER_PAGE, siteConfig } from "@/site-config";
+import siteConfig from "src/siteConfig.json";
 
 export async function getStaticPaths({ paginate }: { paginate: any }) {
   const allPosts = await getAllPosts();
   const formattedPosts = sortMDByDate(allPosts);
 
   return paginate(formattedPosts, {
-    pageSize: POSTS_PER_PAGE,
+    pageSize: siteConfig.POSTS_PER_PAGE,
   });
 }
 

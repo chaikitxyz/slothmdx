@@ -4,12 +4,12 @@ import PageLayout from "@/layouts/Base";
 import { getAllPodcasts, sortPodcastByDate } from "@/utils";
 import PodcastCard from "@/components/PodcastCard";
 import Pagination from "@/components/Pagination";
-import { PODCASTS_PER_PAGE, siteConfig } from "@/site-config";
+import siteConfig  from "src/siteConfig.json";
 
 export const getStaticPaths = (async ({ paginate }) => {
   const allPodcasts = await getAllPodcasts();
   const allPodcastsByDate = sortPodcastByDate(allPodcasts);
-  return paginate(allPodcastsByDate, { pageSize: PODCASTS_PER_PAGE });
+  return paginate(allPodcastsByDate, { pageSize: siteConfig.PODCASTS_PER_PAGE });
 }) satisfies GetStaticPaths;
 
 type Props = InferGetStaticPropsType<typeof getStaticPaths>;

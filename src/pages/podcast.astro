@@ -3,12 +3,12 @@ import PageLayout from "@/layouts/Base";
 import { getAllPodcasts, sortPodcastByDate } from "@/utils";
 import PodcastCard from "@/components/PodcastCard";
 import Pagination from "@/components/Pagination";
-import { PODCASTS_PER_PAGE, siteConfig } from "@/site-config";
+import siteConfig from "src/siteConfig.json";
 
 const allPodcasts = await getAllPodcasts();
 const allPodcastsByDate = sortPodcastByDate(allPodcasts);
-const totalPages = Math.ceil(allPodcastsByDate.length / PODCASTS_PER_PAGE);
-const initialPodcasts = allPodcastsByDate.slice(0, PODCASTS_PER_PAGE);
+const totalPages = Math.ceil(allPodcastsByDate.length / siteConfig.PODCASTS_PER_PAGE);
+const initialPodcasts = allPodcastsByDate.slice(0, siteConfig.PODCASTS_PER_PAGE);
 ---
 
 <PageLayout meta={{ title: "Podcast" }}>

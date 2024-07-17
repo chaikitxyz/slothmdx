@@ -4,12 +4,12 @@ import PostPreview from "@/components/blog/PostPreview";
 import SocialList from "@/components/SocialList";
 import Pagination from "@/components/Pagination";
 import { getAllPosts, sortMDByDate } from "@/utils";
-import { POSTS_PER_PAGE, siteConfig } from "@/site-config";
+import siteConfig from "src/siteConfig.json";
 
 const allPosts = await getAllPosts();
 const allPostsByDate = sortMDByDate(allPosts);
-const totalPages = Math.ceil(allPostsByDate.length / POSTS_PER_PAGE);
-const initialPosts = allPostsByDate.slice(0, POSTS_PER_PAGE);
+const totalPages = Math.ceil(allPostsByDate.length / siteConfig.POSTS_PER_PAGE);
+const initialPosts = allPostsByDate.slice(0,siteConfig.POSTS_PER_PAGE);
 ---
 
 <PageLayout meta={{ title: "Home" }}>
