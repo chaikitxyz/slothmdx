@@ -1,0 +1,5 @@
+{
+  "run": "npm run dev",
+  "url": "http://localhost:4321",
+  "siteConfig": "src/siteConfig.json"
+}
