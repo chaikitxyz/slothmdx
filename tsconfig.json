@@ -12,6 +12,6 @@
 			"@/site-config": ["src/site.config.ts"]
 		}
 	},
-	"include": ["src", "*.ts"],
+	"include": ["src", "*.ts", "copySiteConfig.cjs"],
 	"exclude": ["node_modules", "**/node_modules/*", ".vscode", "dist"]
 }
